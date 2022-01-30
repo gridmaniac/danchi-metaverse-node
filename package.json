@@ -1,0 +1,21 @@
+{
+  "name": "danchi-metaverse-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "ethers": "^5.5.3",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.8",
+    "web3": "^1.7.0",
+    "ws": "^8.4.2"
+  }
+}

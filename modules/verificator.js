@@ -1,0 +1,38 @@
+const ethers = require("ethers");
+const abi = require("../abi/erc721.abi.json");
+const nftMap = require("../nft-map.json");
+const authorizedList = {};
+
+const Web3 = require("web3");
+
+async function whoOwnsThisToken(address, tokenId) {
+  const web3 = new Web3(Web3.givenProvider || process.env.ETHEREUM_NODE);
+  const contract = new web3.eth.Contract(abi, address);
+  const owner = await contract.methods.ownerOf(tokenId).call();
+  return owner;
+}
+
+module.exports.verifySignature = async function (message, signature, address) {
+  const signerAddr = await ethers.utils.verifyMessage(message, signature);
+  if (signerAddr !== address) throw new Error("Invalid signature.");
+};
+
+module.exports.verifyOwner = async function (nonce, tokenName, address) {
+  const tokenId = nftMap[tokenName];
+  if (tokenId == null)
+    throw new Error("This aparment is not listed.");
+
+  const owner = await whoOwnsThisToken(process.env.CONTRACT, tokenId);
+  if (owner !== address) throw new Error("Ownership verification failed.");
+
+  // Authorize passed nonce
+  authorizedList[nonce] = true;
+};
+
+module.exports.verifyNonce = async function (nonce) {
+  if (!authorizedList.hasOwnProperty(nonce))
+    throw new Error("Not authorized.");
+
+  // Expire nonce
+  delete authorizedList[nonce];
+}

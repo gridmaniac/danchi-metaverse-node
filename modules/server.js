@@ -33,7 +33,7 @@ app.post("/api/authorize", async (req, res) => {
   }
 });
 
-app.post("/api/healthcheck", async (req, res) => {
+app.get("/api/healthcheck", async (req, res) => {
   res.send("Safe and Sound!");
 });
 

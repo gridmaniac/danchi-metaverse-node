@@ -9,7 +9,9 @@ const {
   verifyNonce,
 } = require("./verificator");
 
-app.use(cors());
+if (process.env.DEVELOPMENT)
+  app.use(cors());
+
 app.use(bodyParser.json());
 
 app.get("/api/verify", async (req, res) => {

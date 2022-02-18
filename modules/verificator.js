@@ -5,7 +5,7 @@ const authorizedList = {};
 
 const Web3 = require("web3");
 
-function ownerOf(tokenId, address) {
+async function ownerOf(tokenId, address) {
   const web3 = new Web3(Web3.givenProvider || process.env.ETHEREUM_NODE);
   const contract = new web3.eth.Contract(abi, process.env.CONTRACT);
   const balance = await contract.methods.balanceOf(address, tokenId).call();

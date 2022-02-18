@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const abi = require("../abi/erc721.abi.json");
+const abi = require("../abi/erc1155.abi.json");
 const nftMap = require("../nft-map.json");
 const authorizedList = {};
 

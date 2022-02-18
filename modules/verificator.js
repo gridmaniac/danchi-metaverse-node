@@ -23,7 +23,7 @@ module.exports.verifyOwner = async function (nonce, tokenName, address) {
     throw new Error("This aparment is not listed.");
 
   const owner = await ownerOf(tokenId, address);
-  if (owner) throw new Error("Ownership verification failed.");
+  if (!owner) throw new Error("Ownership verification failed.");
 
   // Authorize passed nonce
   authorizedList[nonce] = true;

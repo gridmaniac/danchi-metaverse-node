@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const axios = require("axios");
+const ytdl = require('ytdl-core');
 const { verifySignature, verifyOwner, verifyNonce } = require("./verificator");
 const { Item } = require("./db");
 
@@ -60,6 +61,14 @@ app.get("/api/proxy-video", async (req, res) => {
       stream.data.pipe(res)
     })
     .catch(err => console.error(err.message));
+});
+
+app.get("/api/proxy-yt", async (req, res) => {
+  const buff = new Buffer(req.query.url, 'base64');
+  const url = buff.toString('ascii');
+
+  res.set("Content-Type", "video/mp4")
+  ytdl(url).pipe(res);
 });
 
 app.post("/api/save-item", urlencodedParser, async (req, res) => {

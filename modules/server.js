@@ -48,6 +48,20 @@ app.get("/api/proxy-image", async (req, res) => {
   res.end(img);
 });
 
+app.get("/api/proxy-video", async (req, res) => {
+  const buff = new Buffer(req.query.token, 'base64');
+  const url = buff.toString('ascii');
+
+  axios.get(url, {
+    responseType: 'stream'
+  })
+    .then((stream) => {
+      res.writeHead(stream.status, stream.headers)
+      stream.data.pipe(res)
+    })
+    .catch(err => console.error(err.message));
+});
+
 app.post("/api/save-item", urlencodedParser, async (req, res) => {
   try {
     const item = JSON.parse(Object.keys(req.body)[0]);

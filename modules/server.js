@@ -67,8 +67,9 @@ app.get("/api/proxy-yt", async (req, res) => {
   const buff = new Buffer(req.query.url, 'base64');
   const url = buff.toString('ascii');
 
-  res.set("Content-Type", "video/mp4")
-  ytdl(url).pipe(res);
+  ytdl(url, { quality: "lowest", filter: "videoandaudio" }).on("info", (info, format) => {
+    res.set("Content-Type", format.mimeType)
+  }).pipe(res);
 });
 
 app.post("/api/save-item", urlencodedParser, async (req, res) => {

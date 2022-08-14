@@ -35,7 +35,9 @@ app.post("/api/authorize", jsonParser, async (req, res) => {
 });
 
 app.get("/api/proxy-image", async (req, res) => {
-  const { url } = req.query;
+  const buff = new Buffer(req.query.url, 'base64');
+  const url = buff.toString('ascii');
+  
   const { data } = await axios.get(url, {
     responseType: "arraybuffer",
   });
